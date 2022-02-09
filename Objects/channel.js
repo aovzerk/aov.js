@@ -17,8 +17,10 @@ class Channel {
 		const url = `${consts.base_url}/channels/${this.id}/messages`;
 		return new Promise(async (result, reject) => {
 			send_data({ "method": "POST", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.msg.token }).then(async new_msg_d => {
-				const new_msg = this.msg.create_msg_obj({ "d": new_msg_d }, this.msg.token);
-				result(new_msg);
+				this.msg.guild.get_member(this.msg.client.user.id).then(async member =>{
+					const new_msg = this.msg.create_msg_obj({ "d": new_msg_d }, this.msg.token, this.msg.guild, member, this.msg.client);
+					result(new_msg);
+				});
 			});
 		});
 	}

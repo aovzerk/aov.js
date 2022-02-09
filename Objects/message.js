@@ -2,7 +2,8 @@ const { send_data, delet_msg } = require("../utils/utils");
 const consts = require("../consts.json");
 const channel = require("./channel");
 class Message {
-	constructor(action, token, guild, member) {
+	constructor(action, token, guild, member, client) {
+		this.client = client;
 		this.message_structure = action.d;
 		this.id = this.message_structure.id;
 		this.token = token;
@@ -32,8 +33,8 @@ class Message {
 		const url = `${consts.base_url}/channels/${this.message_structure.channel_id}/messages`;
 		send_data({ "method": "POST", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.token });
 	}
-	async create_msg_obj(action, token) {
-		const new_msg = new Message(action, token);
+	async create_msg_obj(action, token, guild, member, client) {
+		const new_msg = new Message(action, token, guild, member, client);
 		return new_msg;
 	}
 }

@@ -25,7 +25,7 @@ class Client extends Emitter {
 			const data_guild = await send_data({ "method": "GET", "body": null, "url": `${consts.base_url}/guilds/${action.d.guild_id}`, "token": this.token });
 			const guild = new Guild({ "id": action.d.guild_id, "token": this.token, "data": data_guild });
 			const member = await guild.get_member(action.d.author.id);
-			const new_message = new d_message(action, this.token, guild, member);
+			const new_message = new d_message(action, this.token, guild, member, this);
 			this.emit(consts.Gateway_Events.MESSAGE_CREATE, new_message);
 		});
 	}
