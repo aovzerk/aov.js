@@ -1,0 +1,38 @@
+{
+    "base_url": "https://discord.com/api/v9",
+    "base_gateway_url": "wss://gateway.discord.gg/",
+    "opcodes_gateway": {
+        "Heartbeat": 1,
+        "Identify": 2,
+        "Presence_Update": 3,
+        "Hello": 10,
+        "Heartbeat_ACK": 11
+    },
+    "epoch": "1420070400000",
+    "intents":{
+        "GUILDS": 1,
+        "GUILD_MEMBERS": 2,
+        "GUILD_BANS": 4,
+        "GUILD_EMOJIS_AND_STICKERS": 8,
+        "GUILD_INTEGRATIONS": 16,
+        "GUILD_WEBHOOKS": 32,
+        "GUILD_INVITES": 64,
+        "GUILD_VOICE_STATES": 128,
+        "GUILD_PRESENCES": 256,
+        "GUILD_MESSAGES": 512,
+        "GUILD_MESSAGE_REACTIONS": 1024,
+        "GUILD_MESSAGE_TYPING": 2048,
+        "DIRECT_MESSAGES": 4096,
+        "DIRECT_MESSAGE_REACTIONS": 8192,
+        "DIRECT_MESSAGE_TYPING": 16384,
+        "FULL":32767
+    },
+    "Gateway_Events": {
+        "READY": "READY",
+        "MESSAGE_CREATE": "MESSAGE_CREATE"
+    },
+    "API_STATUS":{
+        "OK": 200,
+        "NOT_CONTENT": 204
+    }
+}

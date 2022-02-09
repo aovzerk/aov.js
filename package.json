@@ -1,0 +1,15 @@
+{
+    "name": "aov.js",
+    "version": "0.0.1",
+    "main": "Client.js",
+    "dependencies": {
+        "fetch": "^1.1.0",
+        "node-fetch": "^2.6.7",
+        "websocket": "^1.0.34"
+    },
+    "engines": {
+      "node": ">=16.6.0",
+      "npm": ">=7.0.0"
+    }
+  }
+  
