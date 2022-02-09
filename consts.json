@@ -27,6 +27,7 @@
         "DIRECT_MESSAGE_TYPING": 16384,
         "FULL":32767
     },
+    "GLOBAL_EVENT": "NEW_ACTION",
     "Gateway_Events": {
         "READY": "READY",
         "MESSAGE_CREATE": "MESSAGE_CREATE"

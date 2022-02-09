@@ -48,7 +48,7 @@ class Gateway extends WebSocketClient {
 		} else if (t == null && action.op == consts.opcodes_gateway.Heartbeat_ACK) {
 			setTimeout(this.heartbeat, this.interval, connection);
 		} else {
-			event.emit(t, action);
+			event.emit("NEW_ACTION", t, action);
 		}
 
 
