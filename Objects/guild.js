@@ -67,5 +67,23 @@ class Guild {
 			}).catch(err => reject(err));
 		});
 	}
+	async get_aplication_commands() {
+		return new Promise(async (result, reject) => {
+			const url = `${consts.base_url}/applications/${this.client.user.id}/guilds/${this.id}/commands`;
+			const method = "GET";
+			send_data({ "method": method, "body": null, "url": url, "token": this.token, "get_json": true }).then(async (commands) => {
+				result(commands);
+			}).catch(err => reject(err));
+		});
+	}
+	async delete_aplication_command(id) {
+		return new Promise(async (result, reject) => {
+			const url = `${consts.base_url}/applications/${this.client.user.id}/guilds/${this.id}/commands/${id}`;
+			const method = "DELETE";
+			send_data({ "method": method, "body": null, "url": url, "token": this.token, "get_json": false }).then(async () => {
+				result("Complete");
+			}).catch(err => reject(err));
+		});
+	}
 }
 module.exports = Guild;
