@@ -6,10 +6,11 @@ const Guild_member = require("./guild_member");
 const Role = require("./role");
 class Guild {
 	constructor(options) {
-		const { id, token, data } = options;
+		const { id, token, data, client } = options;
 		this.id = id;
 		this.token = token;
 		this.data = data;
+		this.client = client;
 	}
 
 
@@ -56,6 +57,15 @@ class Guild {
 			}).catch(err => reject(err));
 		});
 	}
-
+	async register_command(options) {
+		return new Promise(async (result, reject) => {
+			const url = `${consts.base_url}/applications/${this.client.user.id}/guilds/${this.id}/commands`;
+			const method = "POST";
+			const full_content_body = JSON.stringify(options);
+			send_data({ "method": method, "body": full_content_body, "url": url, "token": this.token, "get_json": false }).then(async () => {
+				result("Created");
+			}).catch(err => reject(err));
+		});
+	}
 }
 module.exports = Guild;

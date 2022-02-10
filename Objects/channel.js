@@ -2,10 +2,10 @@
 const { send_data, get_data, Bulk_Delete } = require("../utils/utils");
 const consts = require("../consts.json");
 class Channel {
-	constructor(msg) {
+	constructor(msg, guild) {
 		this.id = msg.message_structure.channel_id;
 		this.msg = msg;
-
+		this.guild = guild;
 	}
 	async send(options) {
 		const { content, embeds } = options;
@@ -17,13 +17,13 @@ class Channel {
 		const url = `${consts.base_url}/channels/${this.id}/messages`;
 		return new Promise(async (result, reject) => {
 			send_data({ "method": "POST", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.msg.token }).then(async new_msg_d => {
-				this.msg.guild.get_member(this.msg.client.user.id).then(async member =>{
+				this.msg.guild.get_member(this.msg.client.user.id).then(async member => {
 					const new_msg = this.msg.create_msg_obj({ "d": new_msg_d }, this.msg.token, this.msg.guild, member, this.msg.client);
 					result(new_msg);
-				}).catch(err =>{
+				}).catch(err => {
 					reject(err);
 				});
-			}).catch(err =>{
+			}).catch(err => {
 				reject(err);
 			});
 		});

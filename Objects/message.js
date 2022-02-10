@@ -7,8 +7,8 @@ class Message {
 		this.message_structure = action.d;
 		this.id = this.message_structure.id;
 		this.token = token;
-		this.channel = new channel(this);
 		this.guild = guild;
+		this.channel = new channel(this, guild);
 		this.member = member;
 		this.url_delete = `${consts.base_url}/channels/${this.message_structure.channel_id}/messages/${this.message_structure.id}`;
 	}

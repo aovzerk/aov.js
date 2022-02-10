@@ -31,10 +31,12 @@
     "GLOBAL_EVENT": "NEW_ACTION",
     "Gateway_Events": {
         "READY": "READY",
-        "MESSAGE_CREATE": "MESSAGE_CREATE"
+        "MESSAGE_CREATE": "MESSAGE_CREATE",
+        "INTERACTION_CREATE": "INTERACTION_CREATE"
     },
     "API_STATUS":{
         "OK": 200,
-        "NOT_CONTENT": 204
+        "NOT_CONTENT": 204,
+        "CREATED": 201
     }
 }

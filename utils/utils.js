@@ -16,10 +16,12 @@ async function send_data(options) {
 				"Content-Type": "application/json"
 			}
 		});
-		if (response.status == consts.API_STATUS.OK || response.status == consts.API_STATUS.NOT_CONTENT) {
+		if (response.status == consts.API_STATUS.OK || response.status == consts.API_STATUS.NOT_CONTENT || response.status == consts.API_STATUS.CREATED) {
 			if (get_json) {
 				const data = await response.json();
 				result(data);
+			} else {
+				result("Complete");
 			}
 		} else {
 			reject({ "Error_status": response.status, "Error_url": response.url, "Error_text": response.statusText, "body": JSON.parse(body) });

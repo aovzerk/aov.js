@@ -12,6 +12,7 @@ class Client extends Emitter {
 		this.intents = intents;
 		this.user = null;
 		this.commands = new Map();
+		this.cache_webhook_interaction = new Map();
 	}
 	async tracing_event_on_gateway() {
 		event_Gateway.on(consts.GLOBAL_EVENT, async (t, action) => {
