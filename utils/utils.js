@@ -22,7 +22,7 @@ async function send_data(options) {
 				result(data);
 			}
 		} else {
-			reject(`Error response: status - ${response.status}\n${response.url}\n${response.statusText}`);
+			reject({ "Error_status": response.status, "Error_url": response.url, "Error_text": response.statusText, "body": JSON.parse(body) });
 		}
 	});
 

@@ -20,7 +20,11 @@ class Channel {
 				this.msg.guild.get_member(this.msg.client.user.id).then(async member =>{
 					const new_msg = this.msg.create_msg_obj({ "d": new_msg_d }, this.msg.token, this.msg.guild, member, this.msg.client);
 					result(new_msg);
+				}).catch(err =>{
+					reject(err);
 				});
+			}).catch(err =>{
+				reject(err);
 			});
 		});
 	}
