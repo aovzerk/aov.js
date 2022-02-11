@@ -31,7 +31,17 @@ class Message {
 			"tts": false
 		};
 		const url = `${consts.base_url}/channels/${this.message_structure.channel_id}/messages`;
-		send_data({ "method": "POST", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.token });
+		return send_data({ "method": "POST", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.token });
+	}
+	async update(options) {
+		const { content, embeds } = options;
+		const full_content_new_msg = {
+			"content": content,
+			"embeds": embeds,
+			"tts": false
+		};
+		const url = `${consts.base_url}/channels/${this.message_structure.channel_id}/messages/${this.id}`;
+		return send_data({ "method": "PATCH", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.token });
 	}
 	async create_msg_obj(action, token, guild, member, client) {
 		const new_msg = new Message(action, token, guild, member, client);
