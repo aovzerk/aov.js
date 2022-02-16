@@ -1,0 +1,15 @@
+{
+    "Opcodes": {
+        "Heartbeat": 1,
+        "Identify": 2,
+        "Presence_Update": 3,
+        "Hello": 10,
+        "Heartbeat_ACK": 11
+    },
+    "GLOBAL_EVENT": "NEW_ACTION",
+    "Events": {
+        "READY": "READY",
+        "MESSAGE_CREATE": "MESSAGE_CREATE",
+        "INTERACTION_CREATE": "INTERACTION_CREATE"
+    }
+}

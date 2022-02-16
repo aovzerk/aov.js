@@ -1,7 +1,7 @@
 {
     "name": "aov.js",
     "version": "0.0.1",
-    "main": "Client.js",
+    "main": "./src/index.js",
     "dependencies": {
         "fetch": "^1.1.0",
         "node-fetch": "^2.6.7",

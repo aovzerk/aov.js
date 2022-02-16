@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-async-promise-executor */
+"use strict";
 const fetch = require("node-fetch");
-const consts = require("../consts.json");
+const API_STATUS = require("../consts/api_status.json");
 
 async function send_data(options) {
 	const { method, body, url, token } = options;
@@ -16,7 +17,7 @@ async function send_data(options) {
 				"Content-Type": "application/json"
 			}
 		});
-		if (response.status == consts.API_STATUS.OK || response.status == consts.API_STATUS.NOT_CONTENT || response.status == consts.API_STATUS.CREATED) {
+		if (response.status == API_STATUS.OK || response.status == API_STATUS.NOT_CONTENT || response.status == API_STATUS.CREATED) {
 			if (get_json) {
 				const data = await response.json();
 				result(data);

@@ -1,0 +1,5 @@
+{
+    "OK": 200,
+    "NOT_CONTENT": 204,
+    "CREATED": 201
+}
