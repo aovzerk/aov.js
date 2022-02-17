@@ -5,6 +5,8 @@ const Gateway = require("./Gateway");
 const c_intents = require("../consts/intents.json");
 const gateway_data = require("../consts/gateway_data.json");
 const actions = require("./actions");
+const ChannelCacheManager = require("./managers/ChannelCacheManager");
+const GuildCacheManager = require("./managers/GuildCacheManager");
 class Client extends EventEmitter {
 	constructor(options) {
 		super();
@@ -13,11 +15,14 @@ class Client extends EventEmitter {
 		this.connection = null;
 		this.intents = null;
 		this.cache_msg = new Map();
+		this.cache_chn = new Map();
 		this.Gateway = new Gateway();
 		this.actions = actions;
 		this.intents_map = new Map(Object.keys(c_intents).map(x => [x, c_intents[x]])); // ковертируем intents(JSON) в Map
 		this.calc_intents(options.intents); // Суммируем разрешения бота, указанные в конструкторе
 		this.start_gateway_connection();
+		this.channels = new ChannelCacheManager(this);
+		this.guild = new GuildCacheManager(this);
 	}
 
 	async analys_action(t, action, connection) {
@@ -27,6 +32,7 @@ class Client extends EventEmitter {
 		} else if (t == null && action.op == gateway_data.Heartbeat_ACK) {
 			setTimeout(this.Gateway.heartbeat, this.Gateway.interval, connection);
 		} else if (this.actions[t]) {
+
 			this.actions[t](this, action);
 		}
 

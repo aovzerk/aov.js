@@ -9,7 +9,9 @@ bot.on("READY", async user => {
 
 bot.on("MESSAGE_CREATE", async msg => {
 	if (msg.d.author.id != bot.user.id) {
-		msg.reply({ "content": "Hello" });
+		msg.channel.send({ "content": "Hello" }).then(new_msg => {
+			console.log(new_msg.channel.d);
+		});
 	}
 });
 bot.login(cfg.token);

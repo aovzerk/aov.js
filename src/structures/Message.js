@@ -1,9 +1,14 @@
+"use strict";
+
 const { send_data } = require("../utils/utils");
 const urls = require("../consts/urls.json");
 class Message {
 	constructor(client, action) {
 		this.client = client;
 		this.d = action.d;
+	}
+	get channel() {
+		return this.client.channels.resolve(this.d.channel_id);
 	}
 	async reply(options) {
 		const { content, embeds } = options;
