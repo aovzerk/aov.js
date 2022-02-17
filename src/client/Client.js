@@ -15,7 +15,6 @@ class Client extends EventEmitter {
 		this.connection = null;
 		this.intents = null;
 		this.cache_msg = new Map();
-		this.cache_chn = new Map();
 		this.Gateway = new Gateway();
 		this.actions = actions;
 		this.intents_map = new Map(Object.keys(c_intents).map(x => [x, c_intents[x]])); // ковертируем intents(JSON) в Map
