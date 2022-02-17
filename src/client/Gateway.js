@@ -15,7 +15,7 @@ class Gateway extends WebSocketClient {
 	heartbeat(connection) { // отправка heartbeat для индентификации того что мы живы
 		if (connection.connected) {
 			connection.sendUTF(JSON.stringify({
-				"op": gateway_data.Heartbeat,
+				"op": gateway_data.Opcodes.Heartbeat,
 				"d": null }));
 		}
 	}
