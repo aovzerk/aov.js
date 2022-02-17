@@ -1,3 +1,5 @@
+"use strict";
+
 class ChannelCacheManager {
 	constructor(client) {
 		this.client = client;
