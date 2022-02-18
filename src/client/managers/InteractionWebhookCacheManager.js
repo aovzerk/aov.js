@@ -1,9 +1,9 @@
 "use strict";
+const BaseManager = require("./BaseManager");
 
-class ChannelCacheManager {
+class ChannelCacheManager extends BaseManager {
 	constructor(client) {
-		this.client = client;
-		this.cache = new Map();
+		super(client);
 	}
 	resolve(id) {
 		const gets_i_w = this.cache.get(id);

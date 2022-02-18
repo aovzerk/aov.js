@@ -1,9 +1,10 @@
 "use strict";
 
-class GuildMembersManager {
+const BaseManager = require("./BaseManager");
+
+class GuildMembersManager extends BaseManager {
 	constructor(client) {
-		this.client = client;
-		this.cache = new Map();
+		super(client);
 	}
 	resolve(id) {
 		const gets_member = this.cache.get(id);
