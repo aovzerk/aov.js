@@ -6,9 +6,13 @@ class Message {
 	constructor(client, action) {
 		this.client = client;
 		this.d = action.d;
+		this.deleted = 0;
 	}
 	get channel() {
 		return this.client.channels.resolve(this.d.channel_id);
+	}
+	get guild() {
+		return this.client.guilds.resolve(this.d.guild_id);
 	}
 	async reply(options) {
 		const { content, embeds } = options;
@@ -26,6 +30,18 @@ class Message {
 		};
 		const url = `${urls.base_url}/channels/${this.d.channel_id}/messages`;
 		return send_data({ "method": "POST", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.client.token });
+
+	}
+	async delete() {
+		if (!this.deleted) {
+			this.deleted = 1;
+			const url = `${urls.base_url}/channels/${this.d.channel_id}/messages/${this.d.id}`;
+			return send_data({ "method": "DELETE", "body": null, "url": url, "token": this.client.token, "get_json": false });
+		} else {
+
+			throw Error("Message is deleted");
+		}
+
 	}
 }
 module.exports = Message;

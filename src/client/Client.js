@@ -22,7 +22,7 @@ class Client extends EventEmitter {
 		this.calc_intents(options.intents); // Суммируем разрешения бота, указанные в конструкторе
 		this.start_gateway_connection();
 		this.channels = new ChannelCacheManager(this);
-		this.guild = new GuildCacheManager(this);
+		this.guilds = new GuildCacheManager(this);
 		this.messages = new MessageCacheManager(this);
 		this.webhooks_interation = new InteractionWebhookCacheManager(this);
 	}

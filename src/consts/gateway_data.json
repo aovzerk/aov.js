@@ -6,7 +6,9 @@
         "Hello": 10,
         "Heartbeat_ACK": 11
     },
-    "GLOBAL_EVENT": "NEW_ACTION",
+    "Interaction_Types": {
+        "APPLICATION_COMMAND": 2
+    },
     "Events": {
         "READY": "READY",
         "MESSAGE_CREATE": "MESSAGE_CREATE",
