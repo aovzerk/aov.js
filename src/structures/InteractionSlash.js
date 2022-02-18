@@ -39,8 +39,10 @@ class InteractionSlash {
 			const url = `${urls.base_url}/interactions/${this.d.id}/${this.d.token}/callback`;
 			const full_content_new_msg = {
 				"type": 4,
-				"data": { "content": content,
+				"data": {
+					"content": content,
 					"embeds": embeds,
+					"components": components,
 					"tts": false
 				}
 
