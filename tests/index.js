@@ -29,12 +29,11 @@ bot.on("INTERACTION_CREATE", async i => {
 	} else if (i.type == "SLASH") {
 		await i.deferReply();
 		const row = new MessageActionRow();
-		const button = new MessageButton();
-		button.setCustomId("id_1");
-		button.setStyle("DANGER");
-		button.setLabel("Hello");
 		row.addComponent(
-			button
+			new MessageButton()
+				.setCustomId("id_1")
+				.setStyle("DANGER")
+				.setLabel("Hello")
 		);
 		i.reply({ "content": "Hello", "components": [row.toJSON()] });
 	}

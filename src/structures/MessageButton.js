@@ -9,12 +9,15 @@ class MessageButton {
 	}
 	setCustomId(customId) {
 		this.custom_id = customId;
+		return this;
 	}
 	setStyle(style) {
 		this.style = comp_type.STYLES[style];
+		return this;
 	}
 	setLabel(label) {
 		this.label = label;
+		return this;
 	}
 	toJSON() {
 		return {
