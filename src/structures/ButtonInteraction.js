@@ -1,13 +1,13 @@
 const urls = require("../consts/urls.json");
 const { send_data } = require("../utils/utils");
 
-class InteractionSlash {
+class ButtonInteraction {
 	constructor(client, action) {
 		this.client = client;
 		this.d = action.d;
 		this.deferReply_is = 0;
 		this.reply_is = 0;
-		this.type = "SLASH";
+        this.type = "BUTTON";
 	}
 	async deferReply() {
 		if (!this.deferReply_is && !this.reply_is) {
@@ -24,7 +24,7 @@ class InteractionSlash {
 		const { content, embeds } = options;
 		if (this.deferReply_is && !this.reply_is) {
 			this.reply_is = 1;
-			const webhook = this.client.webhooks_interation.resolve(this.d.id);
+			const webhook = this.client.webhooks_components.resolve(this.d.message.id);
 			const url = `${urls.base_url}/webhooks/${webhook.application_id}/${this.d.token}/messages/${webhook.id}`;
 			const full_content_new_msg = {
 				"content": content,
@@ -48,4 +48,4 @@ class InteractionSlash {
 		}
 	}
 }
-module.exports = InteractionSlash;
+module.exports = ButtonInteraction;

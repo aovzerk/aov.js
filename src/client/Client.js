@@ -9,6 +9,7 @@ const ChannelCacheManager = require("./managers/ChannelCacheManager");
 const GuildCacheManager = require("./managers/GuildCacheManager");
 const MessageCacheManager = require("./managers/MessageCacheManager");
 const InteractionWebhookCacheManager = require("./managers/InteractionWebhookCacheManager");
+const ComponentsWebhookCacheManager = require("./managers/ComponentsWebhookCacheManager");
 class Client extends EventEmitter {
 	constructor(options) {
 		super();
@@ -24,6 +25,7 @@ class Client extends EventEmitter {
 		this.guilds = new GuildCacheManager(this);
 		this.messages = new MessageCacheManager(this);
 		this.webhooks_interation = new InteractionWebhookCacheManager(this);
+		this.webhooks_components = new ComponentsWebhookCacheManager(this);
 	}
 
 	async analys_action(t, action, connection) {

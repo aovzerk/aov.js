@@ -7,7 +7,8 @@
         "Heartbeat_ACK": 11
     },
     "Interaction_Types": {
-        "APPLICATION_COMMAND": 2
+        "APPLICATION_COMMAND": 2,
+        "MESSAGE_COMPONENT": 3
     },
     "Events": {
         "READY": "READY",
