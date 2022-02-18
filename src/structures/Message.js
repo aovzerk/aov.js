@@ -18,10 +18,11 @@ class Message {
 		return this.client.members.resolve(this.d.author.id);
 	}
 	async reply(options) {
-		const { content, embeds } = options;
+		const { content, embeds, components } = options;
 		const full_content_new_msg = {
 			"content": content,
 			"embeds": embeds,
+			"components": components,
 			"message_reference": {
 				"message_id": this.d.id,
 				"channel_id": this.d.channel_id,

@@ -21,7 +21,7 @@ class InteractionSlash {
 
 	}
 	async reply(options) {
-		const { content, embeds } = options;
+		const { content, embeds, components } = options;
 		if (this.deferReply_is && !this.reply_is) {
 			this.reply_is = 1;
 			const webhook = this.client.webhooks_interation.resolve(this.d.id);
@@ -29,6 +29,7 @@ class InteractionSlash {
 			const full_content_new_msg = {
 				"content": content,
 				"embeds": embeds,
+				"components": components,
 				"tts": false
 			};
 			return send_data({ "method": "PATCH", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.client.token, "get_json": false });
