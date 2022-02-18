@@ -1,14 +1,10 @@
 "use strict";
 
-class ChannelCacheManager {
+const BaseManager = require("./BaseManager");
+
+class ChannelCacheManager extends BaseManager {
 	constructor(client) {
-		this.client = client;
-		this.cache = new Map();
-	}
-	resolve(id) {
-		const gets_channel = this.cache.get(id);
-		if (gets_channel) return gets_channel;
-		throw Error(`None channel id: ${id}`);
+		super(client);
 	}
 	get_channels_guild(id) {
 		const cache_channels = new Map();
@@ -18,9 +14,6 @@ class ChannelCacheManager {
 			}
 		});
 		return cache_channels;
-	}
-	add(channel) {
-		this.cache.set(channel.d.id, channel);
 	}
 }
 module.exports = ChannelCacheManager;
