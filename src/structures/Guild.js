@@ -12,6 +12,9 @@ class Guild {
 	get channels() {
 		return this.client.channels.get_channels_guild(this.d.id);
 	}
+	member(id) {
+		return this._members.resolve(id);
+	}
 	get members() {
 		return this._members.cache;
 	}

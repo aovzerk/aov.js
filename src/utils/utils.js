@@ -3,7 +3,7 @@
 "use strict";
 const fetch = require("node-fetch");
 const API_STATUS = require("../consts/api_status.json");
-
+const urls = require("../consts/urls.json");
 async function send_data(options) {
 	const { method, body, url, token } = options;
 	let { get_json } = options;
@@ -83,7 +83,7 @@ async function get_data(options) {
 
 }
 function get_create_at_user(id) {
-	const epoch = BigInt(consts.epoch); // epoch discord
+	const epoch = BigInt(urls.epoch); // epoch discord
 	return Number((BigInt(id) >> BigInt(22)) + epoch);
 }
 module.exports.get_data = get_data;

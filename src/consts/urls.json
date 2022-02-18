@@ -1,5 +1,6 @@
 {
     "base_url": "https://discord.com/api/v9",
     "base_gateway_url": "wss://gateway.discord.gg/",
-    "cdn_url": "https://cdn.discordapp.com"
+    "cdn_url": "https://cdn.discordapp.com",
+    "epoch": 1420070400000
 }

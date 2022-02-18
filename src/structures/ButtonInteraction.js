@@ -1,20 +1,27 @@
 const urls = require("../consts/urls.json");
+const gateway_data = require("../consts/gateway_data.json");
 const { send_data } = require("../utils/utils");
 
 class ButtonInteraction {
 	constructor(client, action) {
 		this.client = client;
 		this.d = action.d;
-		this.deferReply_is = 0;
-		this.reply_is = 0;
+		this.deferReply_is = false;
+		this.reply_is = false;
 		this.type = "BUTTON";
+	}
+	get channel() {
+		return this.client.channels.resolve(this.d.channel_id);
+	}
+	get custom_id() {
+		return this.d.data.custom_id;
 	}
 	async deferReply() {
 		if (!this.deferReply_is && !this.reply_is) {
-			this.deferReply_is = 1;
+			this.deferReply_is = true;
 			const url = `${urls.base_url}/interactions/${this.d.id}/${this.d.token}/callback`;
 			const full_content_new_msg = {
-				"type": 5
+				"type": gateway_data.Interaction_Callback_Type.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE
 			};
 			return send_data({ "method": "POST", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.client.token, "get_json": false });
 		}
@@ -23,7 +30,7 @@ class ButtonInteraction {
 	async reply(options) {
 		const { content, embeds, components } = options;
 		if (this.deferReply_is && !this.reply_is) {
-			this.reply_is = 1;
+			this.reply_is = true;
 			const webhook = this.client.webhooks_components.resolve(this.d.message.id);
 			const url = `${urls.base_url}/webhooks/${webhook.application_id}/${this.d.token}/messages/${webhook.id}`;
 			const full_content_new_msg = {
@@ -35,12 +42,14 @@ class ButtonInteraction {
 			return send_data({ "method": "PATCH", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.client.token, "get_json": false });
 		}
 		if (!this.deferReply_is && !this.reply_is) {
-			this.reply_is = 1;
+			this.reply_is = true;
 			const url = `${urls.base_url}/interactions/${this.d.id}/${this.d.token}/callback`;
 			const full_content_new_msg = {
-				"type": 4,
-				"data": { "content": content,
+				"type": gateway_data.Interaction_Callback_Type.CHANNEL_MESSAGE_WITH_SOURCE,
+				"data": {
+					"content": content,
 					"embeds": embeds,
+					"components": components,
 					"tts": false
 				}
 
