@@ -9,7 +9,7 @@ bot.on("READY", async user => {
 
 bot.on("MESSAGE_CREATE", async msg => {
 	if (msg.d.author.id != bot.user.id) {
-		msg.guild.channels.get("941618046936707162").send({ "content": "Hello" });
+		console.log(msg.guild.members.get("283258851933814784"));
 	}
 
 });

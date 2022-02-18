@@ -18,7 +18,6 @@ class Client extends EventEmitter {
 		this.intents = null;
 		this.Gateway = new Gateway();
 		this.actions = actions;
-		this.intents_map = new Map(Object.keys(c_intents).map(x => [x, c_intents[x]])); // ковертируем intents(JSON) в Map
 		this.calc_intents(options.intents); // Суммируем разрешения бота, указанные в конструкторе
 		this.start_gateway_connection();
 		this.channels = new ChannelCacheManager(this);
@@ -56,10 +55,11 @@ class Client extends EventEmitter {
 		});
 	}
 	calc_intents(intents) {
+		const intents_map = new Map(Object.keys(c_intents).map(x => [x, c_intents[x]])); // ковертируем intents(JSON) в Map
 		intents.forEach(intent => {
-			const num_intent = this.intents_map.get(intent);
+			const num_intent = intents_map.get(intent);
 			if (num_intent === undefined) throw new Error(`INVALID_INTENT: ${intent}`);
-			this.intents_int += num_intent;
+			this.intents += num_intent;
 		});
 	}
 	login(token) {

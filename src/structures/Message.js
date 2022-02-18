@@ -14,6 +14,9 @@ class Message {
 	get guild() {
 		return this.client.guilds.resolve(this.d.guild_id);
 	}
+	get member() {
+		return this.client.members.resolve(this.d.author.id);
+	}
 	async reply(options) {
 		const { content, embeds } = options;
 		const full_content_new_msg = {
