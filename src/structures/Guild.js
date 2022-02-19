@@ -3,11 +3,13 @@
 const urls = require("../consts/urls.json");
 const { send_data } = require("../utils/utils");
 const GuildMembersManager = require("../client/managers/GuildMembersManager");
+const GuildRoleCacheManager = require("../client/managers/GuildRoleCacheManager");
 class Guild {
 	constructor(client, action) {
 		this.client = client;
 		this.d = action.d;
-		this._members = new GuildMembersManager(this);
+		this._members = new GuildMembersManager(this.client);
+		this._roles = new GuildRoleCacheManager(this.client);
 	}
 	get channels() {
 		return this.client.channels.get_channels_guild(this.d.id);

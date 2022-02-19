@@ -7,20 +7,7 @@ bot.on("READY", async user => {
 	console.log(`${user.username}#${user.discriminator} запущен`);
 });
 bot.on("MESSAGE_CREATE", async msg => {
-	/* const slash = {
-		"name": "profile",
-		"description": "Посмотреть профиль пользователя",
-		"options": [
-			{
-				"type": 6,
-				"name": "user",
-				"description": "Пользователь дискорд",
-				"required": false
-			}
-		]
-	};
-	await msg.guild.create_slash(slash);*/
-	console.log(msg.member);
+	console.log(msg.member.roles.get("942690399774982144"));
 });
 bot.on("INTERACTION_CREATE", async i => {
 	// await i.deferReply();

@@ -7,5 +7,11 @@ class GuildMember {
 		this.d.joined_at = new Date(this.d.joined_at).getTime();
 		this.client = client;
 	}
+	get guild() {
+		return this.client.guilds.resolve(this.d.guild_id);
+	}
+	get roles() {
+		return this.guild._roles.get_roles(this.d.roles);
+	}
 }
 module.exports = GuildMember;

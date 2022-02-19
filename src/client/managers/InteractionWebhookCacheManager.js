@@ -1,5 +1,5 @@
 "use strict";
-const BaseManager = require("./BaseManager");
+const BaseManager = require("./BaseCacheManager");
 
 class ChannelCacheManager extends BaseManager {
 	constructor(client) {

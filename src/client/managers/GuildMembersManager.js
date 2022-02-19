@@ -1,6 +1,6 @@
 "use strict";
 
-const BaseManager = require("./BaseManager");
+const BaseManager = require("./BaseCacheManager");
 
 class GuildMembersManager extends BaseManager {
 	constructor(client) {
