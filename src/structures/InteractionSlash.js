@@ -43,7 +43,7 @@ class InteractionSlash {
 
 	}
 	async reply(options) {
-		const { content, embeds, components } = options;
+		const { content, embeds, components, ephemeral } = options;
 		if (this.deferReply_is && !this.reply_is) {
 			this.reply_is = 1;
 			const webhook = this.client.webhooks_interation.resolve(this.d.id);
@@ -54,6 +54,9 @@ class InteractionSlash {
 				"components": components,
 				"tts": false
 			};
+			if (ephemeral) {
+				full_content_new_msg.flags = 64;
+			}
 			return send_data({ "method": "PATCH", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.client.token, "get_json": false });
 		}
 		if (!this.deferReply_is && !this.reply_is) {
@@ -69,6 +72,9 @@ class InteractionSlash {
 				}
 
 			};
+			if (ephemeral) {
+				full_content_new_msg.data.flags = 64;
+			}
 			return send_data({ "method": "POST", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.client.token, "get_json": false });
 		}
 	}
