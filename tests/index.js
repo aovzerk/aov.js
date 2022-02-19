@@ -1,4 +1,4 @@
-const { Client, Embed } = require("../");
+const { Client, Embed, MessageActionRow, MessageButton } = require("../");
 const cfg = require("./cfg.json");
 const bot = new Client({ "intents": [cfg.intents] });
 
@@ -6,13 +6,10 @@ const bot = new Client({ "intents": [cfg.intents] });
 bot.on("READY", async user => {
 	console.log(`${user.username}#${user.discriminator} запущен`);
 });
-bot.on("INTERACTION_CREATE", i => {
-	if (i.type == "SLASH") {
-		const embed = new Embed();
-		embed.setDescription("Hello")
-			.setAuthor({ "name": `Запросил ${i.member.d.user.username}` });
-
-		i.reply({ "embeds": [embed.toJSON()], "ephemeral": false });
+bot.on("INTERACTION_CREATE", async i => {
+	if (i.type == "BUTTON") {
+		await i.deferReply({ "ephemeral": true });
+		i.reply({ "content": "Вы нажали на кнопку", "ephemeral": true });
 	}
 });
 bot.on("MESSAGE_CREATE", async msg => {
@@ -20,8 +17,14 @@ bot.on("MESSAGE_CREATE", async msg => {
 		const embed = new Embed();
 		embed.setDescription("Hello")
 			.setAuthor({ "name": `Запросил ${msg.member.d.user.username}` });
-
-		msg.reply({ "embeds": [embed.toJSON()], "ephemeral": true });
+		const row = new MessageActionRow();
+		row.addComponent(
+			new MessageButton()
+				.setCustomId("id1")
+				.setLabel("Hello")
+				.setStyle("DANGER")
+		);
+		msg.reply({ "embeds": [embed.toJSON()], "components": [row.toJSON()] }).catch(err => console.log(err));
 	}
 
 

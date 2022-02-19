@@ -16,13 +16,18 @@ class ButtonInteraction {
 	get custom_id() {
 		return this.d.data.custom_id;
 	}
-	async deferReply() {
+	async deferReply(options) {
+		const { ephemeral } = options;
 		if (!this.deferReply_is && !this.reply_is) {
 			this.deferReply_is = true;
 			const url = `${urls.base_url}/interactions/${this.d.id}/${this.d.token}/callback`;
 			const full_content_new_msg = {
-				"type": gateway_data.Interaction_Callback_Type.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE
+				"type": gateway_data.Interaction_Callback_Type.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+				"data": {}
 			};
+			if (ephemeral) {
+				full_content_new_msg.data.flags = 64;
+			}
 			return send_data({ "method": "POST", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.client.token, "get_json": false });
 		}
 
