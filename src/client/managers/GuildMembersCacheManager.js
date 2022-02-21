@@ -1,8 +1,8 @@
 "use strict";
 
-const BaseManager = require("./BaseCacheManager");
+const BaseCacheManager = require("./BaseCacheManager");
 
-class GuildMembersManager extends BaseManager {
+class GuildMembersCacheManager extends BaseCacheManager {
 	constructor(client) {
 		super(client);
 	}
@@ -24,4 +24,4 @@ class GuildMembersManager extends BaseManager {
 		this.cache.set(member.d.user.id, member);
 	}
 }
-module.exports = GuildMembersManager;
+module.exports = GuildMembersCacheManager;

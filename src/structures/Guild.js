@@ -1,12 +1,12 @@
 "use strict";
 
-const GuildMembersManager = require("../client/managers/GuildMembersManager");
+const GuildMembersCacheManager = require("../client/managers/GuildMembersCacheManager");
 const GuildRoleCacheManager = require("../client/managers/GuildRoleCacheManager");
 class Guild {
 	constructor(client, action) {
 		this.client = client;
 		this.d = action.d;
-		this._members = new GuildMembersManager(this.client);
+		this._members = new GuildMembersCacheManager(this.client);
 		this._roles = new GuildRoleCacheManager(this.client);
 	}
 	get channels() {
