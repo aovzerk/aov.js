@@ -25,7 +25,7 @@ class Client extends EventEmitter {
 		this.channels = new ChannelCacheManager(this);
 		this.guilds = new GuildCacheManager(this);
 		this.messages = new MessageCacheManager(this);
-		this.webhooks_interation = new InteractionWebhookCacheManager(this);
+		this.webhooks_interaсtion = new InteractionWebhookCacheManager(this);
 		this.webhooks_components = new ComponentsWebhookCacheManager(this);
 		this.rest = new RestManager(this);
 	}
