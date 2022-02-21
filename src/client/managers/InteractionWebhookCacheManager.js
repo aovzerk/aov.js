@@ -11,7 +11,7 @@ class ChannelCacheManager extends BaseManager {
 		throw Error(`None webhook id: ${id}`);
 	}
 	add(webhook) {
-		this.cache.set(webhook.d.interaction.id, webhook.d);
+		this.cache.set(webhook.d.id, webhook.d);
 	}
 }
 module.exports = ChannelCacheManager;

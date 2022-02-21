@@ -1,7 +1,5 @@
 "use strict";
 
-const { send_data } = require("../utils/utils");
-const urls = require("../consts/urls.json");
 class Message {
 	constructor(client, action) {
 		this.client = client;
@@ -19,28 +17,17 @@ class Message {
 	}
 	async reply(options) {
 		const { content, embeds, components } = options;
-		const full_content_new_msg = {
-			"content": content,
-			"embeds": embeds,
-			"components": components,
-			"message_reference": {
-				"message_id": this.d.id,
-				"channel_id": this.d.channel_id,
-				"guild_id": this.d.guild_id,
-				"fail_if_not_exists": false
-			},
-			"type": 19,
-			"tts": false
-		};
-		const url = `${urls.base_url}/channels/${this.d.channel_id}/messages`;
-		return send_data({ "method": "POST", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.client.token });
+		return new Promise((result, reject) => {
+			this.client.rest.rest_channel.message_reply({ "content": content, "embeds": embeds, "components": components, "channel_id": this.d.channel_id, "message_id": this.d.id, "guild_id": this.d.guild_id }).then(async msg_data => {
+				result(new Message(this.client, { "d": msg_data }));
+			}).catch(err => reject(err));
+		});
 
 	}
 	async delete() {
 		if (!this.deleted) {
 			this.deleted = 1;
-			const url = `${urls.base_url}/channels/${this.d.channel_id}/messages/${this.d.id}`;
-			return send_data({ "method": "DELETE", "body": null, "url": url, "token": this.client.token, "get_json": false });
+			return this.client.rest.rest_channel.message_delete({ "channel_id": this.d.channel_id, "message_id": this.d.id });
 		} else {
 
 			throw Error("Message is deleted");

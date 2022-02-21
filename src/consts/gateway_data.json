@@ -16,6 +16,9 @@
         "DEFERRED_UPDATE_MESSAGE_": 6,
         "UPDATE_MESSAGE_": 7
     },
+    "Message_Types":{
+        "REPLY": 19
+    },
     "Application_Command_Option_Type":{
         "STRING": 3,
         "INTEGER": 4,
