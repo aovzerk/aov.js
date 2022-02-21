@@ -14,17 +14,9 @@ bot.on("INTERACTION_CREATE", async i => {
 });
 bot.on("MESSAGE_CREATE", async msg => {
 	if (msg.member.d.user.id != bot.user.id) {
-		const embed = new Embed();
-		embed.setDescription("Hello")
-			.setAuthor({ "name": `Запросил ${msg.member.d.user.username}` });
-		const row = new MessageActionRow();
-		row.addComponent(
-			new MessageButton()
-				.setCustomId("id1")
-				.setLabel("Hello")
-				.setStyle("DANGER")
-		);
-		msg.reply({ "embeds": [embed.toJSON()], "components": [row.toJSON()] }).catch(err => console.log(err));
+		msg.channel.send({ "content": "Hello" }).then(new_msg =>{
+			console.log(new_msg);
+		});
 	}
 
 
