@@ -23,5 +23,8 @@ class GuildMembersCacheManager extends BaseCacheManager {
 	add(member) {
 		this.cache.set(member.d.user.id, member);
 	}
+	delete(member) {
+		this.cache.delete(member.d.user.id);
+	}
 }
 module.exports = GuildMembersCacheManager;

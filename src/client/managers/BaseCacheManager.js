@@ -13,5 +13,8 @@ class BaseManager {
 	add(Obj) {
 		this.cache.set(Obj.d.id, Obj);
 	}
+	delete(Obj) {
+		this.cache.delete(Obj.d.id);
+	}
 }
 module.exports = BaseManager;
