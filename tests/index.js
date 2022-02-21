@@ -24,6 +24,14 @@ bot.on("MESSAGE_CREATE", async msg => {
 			new MessageButton()
 				.setCustomId("id1")
 				.setLabel("Hello")
+				.setStyle("DANGER"),
+			new MessageButton()
+				.setCustomId("id2")
+				.setLabel("Hello")
+				.setStyle("DANGER"),
+			new MessageButton()
+				.setCustomId("id3")
+				.setLabel("Hello")
 				.setStyle("DANGER")
 		);
 		msg.reply({ "content": "Hello", "components": [row] }).then(new_msg => {
