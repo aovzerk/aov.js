@@ -1,6 +1,6 @@
 const { Client } = require("../");
 const cfg = require("./cfg.json");
-const bot = new Client({ "intents": [cfg.intents] });
+const bot = new Client({ "intents": cfg.intents });
 
 
 bot.on("READY", async user => {

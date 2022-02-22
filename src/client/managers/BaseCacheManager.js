@@ -8,7 +8,7 @@ class BaseManager {
 	resolve(id) {
 		const gets_Obj = this.cache.get(id);
 		if (gets_Obj) return gets_Obj;
-		throw Error(`None id: ${id}`);
+		return null;
 	}
 	add(Obj) {
 		this.cache.set(Obj.d.id, Obj);

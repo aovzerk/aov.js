@@ -9,7 +9,7 @@ class GuildMembersCacheManager extends BaseCacheManager {
 	resolve(id) {
 		const gets_member = this.cache.get(id);
 		if (gets_member) return gets_member;
-		throw Error(`None member id: ${id}`);
+		return null;
 	}
 	get_members_guild(id) {
 		const cache_members = new Map();
