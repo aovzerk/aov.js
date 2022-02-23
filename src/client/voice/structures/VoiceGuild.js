@@ -7,11 +7,7 @@ const WebsocketClient = require("websocket").client;
 const FRAME_LENGTH = 20;
 const CHANNELS = 2;
 const TIMESTAMP_INC = (48000 / 100) * CHANNELS;
-function sleep(ms) {
-	return new Promise((resolve) => {
-		setTimeout(resolve, ms);
-	});
-}
+
 class VoiceGuild {
 	constructor(voice_data, client) {
 		this.d = voice_data;
@@ -33,7 +29,6 @@ class VoiceGuild {
 		this.interval = null;
 	}
 	async play(stream) {
-		const demuxer = new prism.opus.OggDemuxer();
 		const encoder = new prism.opus.Encoder({ "rate": 48000, "channels": 2, "frameSize": 960 });
 		encoder.setBitrate(32000);
 		encoder.setPLP(10);
@@ -47,15 +42,12 @@ class VoiceGuild {
 			]
 		});
 		const packages = [];
-		const frameSize = 18; // miliseconds
-		const overhead = 1; // miliseconds
-		let i = 0;
 		const sendp = () => {
 			const d = this;
 			const package1 = packages.shift();
-			
+
 			if (package1) {
-				
+
 				d.socket.send(package1, 0, package1.length, err => {
 					if (err) {
 						console.log(err);
@@ -66,27 +58,26 @@ class VoiceGuild {
 
 		};
 		const packetBuffer = Buffer.alloc(12);
-			packetBuffer[0] = 0x80;
-			packetBuffer[1] = 0x78;
+		packetBuffer[0] = 0x80;
+		packetBuffer[1] = 0x78;
 		encoder.on("data", async chunk => {
 			packetBuffer.writeUIntBE(this.sequence, 2, 2);
 			packetBuffer.writeUIntBE(this.time, 4, 4);
 			packetBuffer.writeUIntBE(this.ssrc, 8, 4);
 			packetBuffer.copy(this.nonce, 0, 0, 12);
-			this.time += 960;
+			this.time += TIMESTAMP_INC ;
 			if (this.time >= 2 ** 32) this.time = 0;
 			this.sequence++;
 			if (this.sequence >= 2 ** 16) this.sequence = 0;
 			const encrypto_data = libsodium.crypto_secretbox_easy(chunk, this.nonce, this.secret_key);
 			const FULL_PACKAGE = Buffer.concat([packetBuffer, encrypto_data]);
 			packages.push(FULL_PACKAGE);
-			
 
 
 		});
-		setInterval(sendp, 15);
+		setInterval(sendp, FRAME_LENGTH);
 		stream.pipe(decoder).pipe(encoder);
-		
+
 
 	}
 	speaking() {
@@ -129,8 +120,8 @@ class VoiceGuild {
 				"token": this.d.token
 			}
 		};
-		this.GatewayConnection.send(JSON.stringify(JSON_AUTH), err =>{
-			if(err){
+		this.GatewayConnection.send(JSON.stringify(JSON_AUTH), err => {
+			if (err) {
 				console.log(err);
 			}
 		});
@@ -193,6 +184,3 @@ class VoiceGuild {
 	}
 }
 module.exports = VoiceGuild;
-function getRandomInt(max) {
-	return Math.floor(Math.random() * max);
-  }

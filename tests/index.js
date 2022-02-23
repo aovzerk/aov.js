@@ -1,5 +1,5 @@
 const { Client } = require("../");
-const fs = require("fs");
+// const fs = require("fs");
 const cfg = require("./cfg.json");
 const bot = new Client({ "intents": cfg.intents });
 const yt_dl = require("youtube-dl-exec");
@@ -18,8 +18,8 @@ bot.on("CREATE_VOICE_CONNECTION", Voice => {
 		"q": "",
 		"f": "bestaudio[ext=webm+acodec=opus+asr=48000]/bestaudio",
 		"r": "100K" }, { "stdio": ["ignore", "pipe", "ignore"] });
-	//const stream = fs.createReadStream("./test3.ogg");
-	
+	// const stream = fs.createReadStream("./test3.ogg");
+
 	Voice.play(stream.stdout);
 
 
