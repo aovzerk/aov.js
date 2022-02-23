@@ -2,9 +2,20 @@
     "Opcodes": {
         "Heartbeat": 1,
         "Identify": 2,
+        "Voice_State_Update": 4,
         "Presence_Update": 3,
         "Hello": 10,
         "Heartbeat_ACK": 11
+    },
+    "Opcodes_Voice": {
+        "Identify": 0,
+        "Select_Protocol": 1,
+        "Ready": 2,
+        "Heartbeat": 3,
+        "Session_Description": 4,
+        "Speaking": 5,
+        "Heartbeat_ACK": 6,
+        "Hello": 8
     },
     "Interaction_Types": {
         "APPLICATION_COMMAND": 2,

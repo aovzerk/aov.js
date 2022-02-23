@@ -11,6 +11,8 @@ const MessageCacheManager = require("./managers/MessageCacheManager");
 const InteractionWebhookCacheManager = require("./managers/InteractionWebhookCacheManager");
 const ComponentsWebhookCacheManager = require("./managers/ComponentsWebhookCacheManager");
 const RestManager = require("./managers/RestManager");
+const ClientVoiceManager = require("./voice/ClientVoice");
+
 class Client extends EventEmitter {
 	constructor(options) {
 		super();
@@ -28,12 +30,12 @@ class Client extends EventEmitter {
 		this.webhooks_interaсtion = new InteractionWebhookCacheManager(this);
 		this.webhooks_components = new ComponentsWebhookCacheManager(this);
 		this.rest = new RestManager(this);
+		this.voices = new ClientVoiceManager(this);
+
 	}
 
 	async analys_action(t, action, connection) {
-
 		if (t == null && action.op == gateway_data.Opcodes.Hello) {
-
 			this.Gateway.interval = action.d.heartbeat_interval;
 			setTimeout(() => this.Gateway.heartbeat(connection), this.Gateway.interval);
 		} else if (t == null && action.op == gateway_data.Opcodes.Heartbeat_ACK) {
@@ -46,6 +48,7 @@ class Client extends EventEmitter {
 	}
 	start_gateway_connection() {
 		this.Gateway.on("connect", async connection => {
+			this.voices.tracking_data(connection);
 			connection.on("message", async message => {
 				if (message.type === "utf8") {
 					const msg_action = await JSON.parse(message.utf8Data);

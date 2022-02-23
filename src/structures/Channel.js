@@ -7,6 +7,9 @@ class Channel {
 		this.client = client;
 
 	}
+	get guild() {
+		return this.client.guilds.resolve(this.d.guild_id);
+	}
 	async send(options) {
 		const { content, embeds, components } = options;
 		return new Promise((result, reject) => {
@@ -15,6 +18,9 @@ class Channel {
 			}).catch(err => reject(err));
 		});
 
+	}
+	async join() {
+		this.client.rest.rest_channel.join({ "guild_id": this.guild.d.id, "channel_id": this.d.id });
 	}
 }
 module.exports = Channel;

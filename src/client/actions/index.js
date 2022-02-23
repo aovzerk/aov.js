@@ -17,6 +17,7 @@ const actions = {
 	"GUILD_MEMBER_UPDATE": require("./GUILD_MEMBER_UPDATE"),
 	"GUILD_ROLE_CREATE": require("./GUILD_ROLE_CREATE"),
 	"GUILD_ROLE_UPDATE": require("./GUILD_ROLE_UPDATE"),
-	"GUILD_ROLE_DELETE": require("./GUILD_ROLE_DELETE")
+	"GUILD_ROLE_DELETE": require("./GUILD_ROLE_DELETE"),
+	"VOICE_STATE_UPDATE": require("./VOICE_STATE_UPDATE")
 };
 module.exports = actions;
