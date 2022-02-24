@@ -44,7 +44,6 @@ class VoiceGuild extends EventEmitter {
 				"-ac", "2"
 			]
 		});
-		const packages = [];
 		const sendp = (_package) => {
 			const d = this;
 			const package1 = _package;
@@ -65,7 +64,6 @@ class VoiceGuild extends EventEmitter {
 		packetBuffer[1] = 0x78;
 		this.startTime = Date.now();
 		encoder.on("data", async chunk => {
-			console.log(chunk.length);
 			if (chunk.length > 0) {
 				this.startPlay = 1;
 				this.time += TIMESTAMP_INC ;
