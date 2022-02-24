@@ -1,7 +1,12 @@
 {
     "name": "aov.js",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "main": "./src/index.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/aovzerk/aov.js"
+    },
+    "homepage": "https://github.com/aovzerk/aov.js",
     "dependencies": {
         "fetch": "^1.1.0",
         "ffmpeg-static": "^4.4.1",

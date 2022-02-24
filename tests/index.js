@@ -13,7 +13,7 @@ bot.on("MESSAGE_CREATE", async msg => {
 	}).catch(err => console.log(err));
 });
 bot.on("CREATE_VOICE_CONNECTION", Voice => {
-	const stream = yt_dl.exec("https://www.youtube.com/watch?v=HsiY_ZsPXaY&ab_channel=lobster", {
+	const stream = yt_dl.exec("https://www.youtube.com/watch?v=Jm932Sqwf5E", {
 		"o": "-",
 		"q": "",
 		"f": "bestaudio[ext=webm+acodec=opus+asr=48000]/bestaudio",
@@ -23,7 +23,7 @@ bot.on("CREATE_VOICE_CONNECTION", Voice => {
 	Voice.play(stream.stdout);
 	Voice.on("End", () => {
 		console.log("emit");
-		const stream2 = yt_dl.exec("https://youtu.be/Gtv40bOE3U4", {
+		const stream2 = yt_dl.exec("https://www.youtube.com/watch?v=Jm932Sqwf5E", {
 			"o": "-",
 			"q": "",
 			"f": "bestaudio[ext=webm+acodec=opus+asr=48000]/bestaudio",
