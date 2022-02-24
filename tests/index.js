@@ -13,7 +13,7 @@ bot.on("MESSAGE_CREATE", async msg => {
 	}).catch(err => console.log(err));
 });
 bot.on("CREATE_VOICE_CONNECTION", Voice => {
-	const stream = yt_dl.exec("https://www.youtube.com/watch?v=AbVYn5mrc5w&ab_channel=%22FRIDAY%22group", {
+	const stream = yt_dl.exec("https://www.youtube.com/watch?v=HsiY_ZsPXaY&ab_channel=lobster", {
 		"o": "-",
 		"q": "",
 		"f": "bestaudio[ext=webm+acodec=opus+asr=48000]/bestaudio",
@@ -21,7 +21,8 @@ bot.on("CREATE_VOICE_CONNECTION", Voice => {
 	// const stream = fs.createReadStream("./test3.ogg");
 
 	Voice.play(stream.stdout);
-	Voice.on("End_play", () => {
+	Voice.on("End", () => {
+		console.log("emit");
 		const stream2 = yt_dl.exec("https://youtu.be/Gtv40bOE3U4", {
 			"o": "-",
 			"q": "",
@@ -29,7 +30,7 @@ bot.on("CREATE_VOICE_CONNECTION", Voice => {
 			"r": "100K" }, { "stdio": ["ignore", "pipe", "ignore"] });
 		// const stream = fs.createReadStream("./test3.ogg");
 
-		Voice.play(stream.stdout);
+		Voice.play(stream2.stdout);
 	});
 
 

@@ -31,10 +31,11 @@ class VoiceGuild extends EventEmitter {
 		this.rtps = null;
 		this.interval = null;
 		this.count = 0;
+		this.startPlay = 0;
 	}
 	async play(stream) {
-		const encoder = new prism.opus.Encoder({ "rate": Bt, "channels": CHANNELS, "frameSize": TIMESTAMP_INC });
-		const decoder = new prism.FFmpeg({
+		let encoder = new prism.opus.Encoder({ "rate": Bt, "channels": CHANNELS, "frameSize": TIMESTAMP_INC });
+		let decoder = new prism.FFmpeg({
 			"args": [
 				"-analyzeduration", "0",
 				"-loglevel", "0",
@@ -64,26 +65,45 @@ class VoiceGuild extends EventEmitter {
 		packetBuffer[1] = 0x78;
 		this.startTime = Date.now();
 		encoder.on("data", async chunk => {
-			this.time += TIMESTAMP_INC ;
-			if (this.time >= 2 ** 32) this.time = 0;
-			this.sequence++;
-			if (this.sequence >= 2 ** 16) this.sequence = 0;
-			packetBuffer.writeUIntBE(this.sequence, 2, 2);
-			packetBuffer.writeUIntBE(this.time, 4, 4);
-			packetBuffer.writeUIntBE(this.ssrc, 8, 4);
-			packetBuffer.copy(this.nonce, 0, 0, 12);
-			const encrypto_data = libsodium.crypto_secretbox_easy(chunk, this.nonce, this.secret_key);
-			const FULL_PACKAGE = Buffer.concat([packetBuffer, encrypto_data]);
-			const next = FRAME_LENGTH + this.count * FRAME_LENGTH - (Date.now() - this.startTime);
-			setTimeout(sendp, next, FULL_PACKAGE);
-			this.count++;
+			console.log(chunk.length);
+			if (chunk.length > 0) {
+				this.startPlay = 1;
+				this.time += TIMESTAMP_INC ;
+				if (this.time >= 2 ** 32) this.time = 0;
+				this.sequence++;
+				if (this.sequence >= 2 ** 16) this.sequence = 0;
+				packetBuffer.writeUIntBE(this.sequence, 2, 2);
+				packetBuffer.writeUIntBE(this.time, 4, 4);
+				packetBuffer.writeUIntBE(this.ssrc, 8, 4);
+				packetBuffer.copy(this.nonce, 0, 0, 12);
+				const encrypto_data = libsodium.crypto_secretbox_easy(chunk, this.nonce, this.secret_key);
+				const FULL_PACKAGE = Buffer.concat([packetBuffer, encrypto_data]);
+				const next = FRAME_LENGTH + this.count * FRAME_LENGTH - (Date.now() - this.startTime);
+				setTimeout(sendp, next, FULL_PACKAGE);
+				this.count++;
+			}
 
 
 		});
 		encoder.on("end", s => {
-			const next = FRAME_LENGTH + this.count * FRAME_LENGTH - (Date.now() - this.startTime);
-			console.log(next);
-			setTimeout(() => this.emit("End_play"), next);
+			if (this.startPlay == 1) {
+				const next = FRAME_LENGTH + this.count * FRAME_LENGTH - (Date.now() - this.startTime);
+				this.startPlay = 0;
+				this.sequence = 0;
+				this.time = 0;
+				this.count = 0;
+				encoder = new prism.opus.Encoder({ "rate": Bt, "channels": CHANNELS, "frameSize": TIMESTAMP_INC });
+				decoder = new prism.FFmpeg({
+					"args": [
+						"-analyzeduration", "0",
+						"-loglevel", "0",
+						"-f", "s16le",
+						"-ar", "48000",
+						"-ac", "2"
+					]
+				});
+				setTimeout(() => this.emit("End"), next);
+			}
 		});
 		stream.pipe(decoder).pipe(encoder);
 
