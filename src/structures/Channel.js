@@ -21,6 +21,12 @@ class Channel {
 	}
 	async join() {
 		this.client.rest.rest_channel.join({ "guild_id": this.guild.d.id, "channel_id": this.d.id });
+		return new Promise((result, reject) => {
+			this.client.on("CREATE_VOICE_CONNECTION", function emit_voice(Voice, client) {
+				client.removeListener("CREATE_VOICE_CONNECTION", emit_voice);
+				result(Voice);
+			});
+		});
 	}
 }
 module.exports = Channel;
