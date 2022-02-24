@@ -3,13 +3,16 @@ const dgram = require("dgram");
 const prism = require("prism-media");
 const libsodium = require("libsodium-wrappers");
 const gateway_data = require("../../../consts/gateway_data.json");
+const { EventEmitter } = require("stream");
 const WebsocketClient = require("websocket").client;
 const FRAME_LENGTH = 20;
 const CHANNELS = 2;
-const TIMESTAMP_INC = (48000 / 100) * CHANNELS;
+const Bt = 48000;
+const TIMESTAMP_INC = (Bt / 100) * CHANNELS;
 
-class VoiceGuild {
+class VoiceGuild extends EventEmitter {
 	constructor(voice_data, client) {
+		super();
 		this.d = voice_data;
 		this.client = client;
 		this.GatewayVoice = new WebsocketClient();
@@ -23,15 +26,14 @@ class VoiceGuild {
 		this.heartbeat_interval = null;
 		this.secret_key = null;
 		this.media_session_id = null;
-		this.sequence = 1;
-		this.time = 960;
+		this.sequence = 0;
+		this.time = 0;
 		this.rtps = null;
 		this.interval = null;
+		this.count = 0;
 	}
 	async play(stream) {
-		const encoder = new prism.opus.Encoder({ "rate": 48000, "channels": 2, "frameSize": 960 });
-		encoder.setBitrate(32000);
-		encoder.setPLP(10);
+		const encoder = new prism.opus.Encoder({ "rate": Bt, "channels": CHANNELS, "frameSize": TIMESTAMP_INC });
 		const decoder = new prism.FFmpeg({
 			"args": [
 				"-analyzeduration", "0",
@@ -42,9 +44,9 @@ class VoiceGuild {
 			]
 		});
 		const packages = [];
-		const sendp = () => {
+		const sendp = (_package) => {
 			const d = this;
-			const package1 = packages.shift();
+			const package1 = _package;
 
 			if (package1) {
 
@@ -60,22 +62,29 @@ class VoiceGuild {
 		const packetBuffer = Buffer.alloc(12);
 		packetBuffer[0] = 0x80;
 		packetBuffer[1] = 0x78;
+		this.startTime = Date.now();
 		encoder.on("data", async chunk => {
-			packetBuffer.writeUIntBE(this.sequence, 2, 2);
-			packetBuffer.writeUIntBE(this.time, 4, 4);
-			packetBuffer.writeUIntBE(this.ssrc, 8, 4);
-			packetBuffer.copy(this.nonce, 0, 0, 12);
 			this.time += TIMESTAMP_INC ;
 			if (this.time >= 2 ** 32) this.time = 0;
 			this.sequence++;
 			if (this.sequence >= 2 ** 16) this.sequence = 0;
+			packetBuffer.writeUIntBE(this.sequence, 2, 2);
+			packetBuffer.writeUIntBE(this.time, 4, 4);
+			packetBuffer.writeUIntBE(this.ssrc, 8, 4);
+			packetBuffer.copy(this.nonce, 0, 0, 12);
 			const encrypto_data = libsodium.crypto_secretbox_easy(chunk, this.nonce, this.secret_key);
 			const FULL_PACKAGE = Buffer.concat([packetBuffer, encrypto_data]);
-			packages.push(FULL_PACKAGE);
+			const next = FRAME_LENGTH + this.count * FRAME_LENGTH - (Date.now() - this.startTime);
+			setTimeout(sendp, next, FULL_PACKAGE);
+			this.count++;
 
 
 		});
-		setInterval(sendp, FRAME_LENGTH);
+		encoder.on("end", s => {
+			const next = FRAME_LENGTH + this.count * FRAME_LENGTH - (Date.now() - this.startTime);
+			console.log(next);
+			setTimeout(() => this.emit("End_play"), next);
+		});
 		stream.pipe(decoder).pipe(encoder);
 
 
