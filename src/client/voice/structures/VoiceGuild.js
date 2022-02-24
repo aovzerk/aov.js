@@ -32,6 +32,7 @@ class VoiceGuild extends EventEmitter {
 		this.interval = null;
 		this.count = 0;
 		this.startPlay = 0;
+		this.loading_track = 0;
 		this.intervals = [];
 		this.closed = 0;
 		this.encoder = new prism.opus.Encoder({ "rate": Bt, "channels": CHANNELS, "frameSize": TIMESTAMP_INC });
@@ -44,17 +45,19 @@ class VoiceGuild extends EventEmitter {
 				"-ac", "2"
 			]
 		});
+		this.stream = null;
 	}
 	async play(stream) {
-		if (this.closed == 0) {
-
-			this.startTime = Date.now();
-			this.encoder.addListener("data", (chunk) => this.analys_pcak(chunk));
-			this.encoder.addListener("end", this.cal_back_end);
-			stream.pipe(this.decoder).pipe(this.encoder);
+		if (this.loading_track == 0) {
+			if (this.closed == 0) {
+				this.stream = stream;
+				this.startTime = Date.now();
+				this.encoder.addListener("data", (chunk) => this.analys_pcak(chunk));
+				this.encoder.addListener("end", (s) => this.cal_back_end(s));
+				this.stream.pipe(this.decoder).pipe(this.encoder);
+			}
 		}
-
-
+		this.loading_track = 1;
 	}
 	analys_pcak(chunk) {
 		if (this.closed == 0) {
@@ -86,7 +89,8 @@ class VoiceGuild extends EventEmitter {
 			this.sequence = 0;
 			this.time = 0;
 			this.count = 0;
-			setTimeout(() => this.emit("End"), next);
+			this.loading_track = 0;
+			setTimeout(() => this.emit("end"), next);
 		}
 	}
 	sendp(_package) {
@@ -204,6 +208,31 @@ class VoiceGuild extends EventEmitter {
 	login() {
 		this.start_tracking();
 		this.GatewayVoice.connect(`wss://${this.d.endpoint.replace(":443", "")}?v=4`);
+	}
+	stop() {
+		this.loading_track = 0;
+		this.encoder.removeAllListeners("data");
+		this.encoder.removeAllListeners("end");
+		this.startPlay = 0;
+		this.count = 0;
+		this.sequence = 0;
+		this.time = 0;
+		this.intervals.forEach(interv => {
+			clearTimeout(interv);
+		});
+		this.encoder.destroy();
+		this.decoder.destroy();
+		this.stream.destroy();
+		this.encoder = new prism.opus.Encoder({ "rate": Bt, "channels": CHANNELS, "frameSize": TIMESTAMP_INC });
+		this.decoder = new prism.FFmpeg({
+			"args": [
+				"-analyzeduration", "0",
+				"-loglevel", "0",
+				"-f", "s16le",
+				"-ar", "48000",
+				"-ac", "2"
+			]
+		});
 	}
 	leave() {
 		this.closed = 1;
