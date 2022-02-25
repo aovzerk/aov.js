@@ -90,6 +90,7 @@ class VoiceGuild extends EventEmitter {
 			this.time = 0;
 			this.count = 0;
 			this.loading_track = 0;
+			this.intervals = [];
 			setTimeout(() => this.emit("end"), next);
 		}
 	}
@@ -220,6 +221,7 @@ class VoiceGuild extends EventEmitter {
 		this.intervals.forEach(interv => {
 			clearTimeout(interv);
 		});
+		this.intervals = [];
 		this.encoder.destroy();
 		this.decoder.destroy();
 		this.stream.destroy();
@@ -242,6 +244,7 @@ class VoiceGuild extends EventEmitter {
 		this.intervals.forEach(interv => {
 			clearTimeout(interv);
 		});
+		this.intervals = [];
 		this.client.rest.rest_channel.join({ "guild_id": this.d.guild_id, "channel_id": null });
 	}
 }

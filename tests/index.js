@@ -12,15 +12,15 @@ const command = {
 	"description": "Ping bot"
 };
 let Voice = null;
-const songs = [];
+let songs = [];
 bot.on("MESSAGE_CREATE", async msg => {
 	if (msg.d.author.id != bot.user.id) {
 		const args = msg.d.content.split(" ");
 		if (args[0] == "!c") {
 			msg.guild.create_slash(command).catch(err => console.log(err));
 		} else if (args[0] == "!play") {
-			if (Voice == null) {
-				const channel = await msg.guild.fetch_channel("942351300908175380");
+			if (Voice == null && msg.member.voice && msg.member.voice.d.channel_id != null) {
+				const channel = await msg.guild.fetch_channel(msg.member.voice.d.channel_id);
 				Voice = await channel.join();
 				analys_song();
 				const stream = yt_dl.exec(args[1], {
@@ -29,13 +29,15 @@ bot.on("MESSAGE_CREATE", async msg => {
 					"f": "bestaudio[ext=webm+acodec=opus+asr=48000]/bestaudio",
 					"r": "100K" }, { "stdio": ["ignore", "pipe", "ignore"] });
 				Voice.play(stream.stdout);
-			} else if (Voice.loading_track == 1) {
+			} else if (Voice != null && Voice.loading_track == 1) {
 				songs.push(args[1]);
 			}
 
-		} else if (args[0] == "!stop") {
+		} else if (Voice != null && args[0] == "!stop") {
 			Voice.leave();
-		} else if (args[0] == "!skip") {
+			Voice = null;
+			songs = [];
+		} else if (Voice != null && args[0] == "!skip") {
 			Voice.stop();
 			const song = songs.shift();
 			if (song) {
@@ -45,7 +47,7 @@ bot.on("MESSAGE_CREATE", async msg => {
 					"f": "bestaudio[ext=webm+acodec=opus+asr=48000]/bestaudio",
 					"r": "100K" }, { "stdio": ["ignore", "pipe", "ignore"] });
 				Voice.play(stream.stdout);
-			} else {
+			} else if (Voice != null) {
 				Voice.leave();
 				Voice = null;
 			}

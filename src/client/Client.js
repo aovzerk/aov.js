@@ -37,9 +37,9 @@ class Client extends EventEmitter {
 	async analys_action(t, action, connection) {
 		if (t == null && action.op == gateway_data.Opcodes.Hello) {
 			this.Gateway.interval = action.d.heartbeat_interval;
-			setTimeout(() => this.Gateway.heartbeat(connection), this.Gateway.interval);
+			setTimeout((_connection) => this.Gateway.heartbeat(_connection), this.Gateway.interval, connection);
 		} else if (t == null && action.op == gateway_data.Opcodes.Heartbeat_ACK) {
-			setTimeout(() => this.Gateway.heartbeat(connection), this.Gateway.interval);
+			setTimeout((_connection) => this.Gateway.heartbeat(_connection), this.Gateway.interval, connection);
 		} else if (this.actions[t]) {
 			this.actions[t](this, action);
 		}

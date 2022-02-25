@@ -12,5 +12,8 @@ class GuildMember {
 	get guild() {
 		return this.client.guilds.resolve(this.d.guild_id);
 	}
+	get voice() {
+		return this.guild.voice_states.resolve(this.d.user.id);
+	}
 }
 module.exports = GuildMember;
