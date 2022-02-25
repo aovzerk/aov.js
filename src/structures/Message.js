@@ -1,5 +1,5 @@
 "use strict";
-
+const TrackMessageComponent = require("./TrackMessageComponent");
 class Message {
 	constructor(client, action) {
 		this.client = client;
@@ -33,6 +33,9 @@ class Message {
 			throw Error("Message is deleted");
 		}
 
+	}
+	async create_tracking_componets_action(filter, time) {
+		return new TrackMessageComponent(this, filter, time);
 	}
 }
 module.exports = Message;

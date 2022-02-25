@@ -16,6 +16,7 @@ const ClientVoiceManager = require("./voice/ClientVoice");
 class Client extends EventEmitter {
 	constructor(options) {
 		super();
+		this.setMaxListeners(0);
 		this.user = null;
 		this.token = null;
 		this.connection = null;
