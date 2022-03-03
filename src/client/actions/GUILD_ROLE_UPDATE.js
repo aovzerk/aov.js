@@ -1,7 +1,7 @@
 "use strict";
 
 const Role = require("../../structures/Role");
-module.exports = async (client, action) => {
+module.exports = (client, action) => {
 
 	const guild = client.guilds.resolve(action.d.guild_id);
 	const new_role = new Role(action.d.role, client);

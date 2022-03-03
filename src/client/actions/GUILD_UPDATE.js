@@ -1,6 +1,6 @@
 "use strict";
 const Guild = require("../../structures/Guild");
-module.exports = async (client, action) => {
+module.exports = (client, action) => {
 
 	const old_guild = client.guilds.resolve(action.d.id);
 	const new_guild = new Guild(client, action);

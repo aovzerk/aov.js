@@ -1,7 +1,7 @@
 "use strict";
 const Message = require("../../structures/Message");
 
-module.exports = async (client, action) => {
+module.exports = (client, action) => {
 
 	const new_msg = new Message(client, action);
 	const old_msg = client.messages.resolve(action.d.id);

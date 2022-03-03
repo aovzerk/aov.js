@@ -8,7 +8,7 @@ class RestChannelManager extends BaseRestManager {
 		super();
 		this.client = client;
 	}
-	async fetch(id) {
+	fetch(id) {
 		const url = `${urls.base_url}/channels/${id}`;
 		return new Promise((result, reject) => {
 			this.send_data({ "method": "GET", "body": null, "url": url, "token": this.client.token }).then(channel_data => {
@@ -17,7 +17,7 @@ class RestChannelManager extends BaseRestManager {
 		});
 
 	}
-	async send(options) {
+	send(options) {
 		const { content, embeds, components, channel_id } = options;
 		const url = `${urls.base_url}/channels/${channel_id}/messages`;
 		const full_content_new_msg = {
@@ -32,7 +32,7 @@ class RestChannelManager extends BaseRestManager {
 			}).catch(err => reject(err));
 		});
 	}
-	async message_reply(options) {
+	message_reply(options) {
 		const { content, embeds, components, channel_id, message_id, guild_id } = options;
 		const full_content_new_msg = {
 			"content": content,
@@ -50,12 +50,12 @@ class RestChannelManager extends BaseRestManager {
 		const url = `${urls.base_url}/channels/${channel_id}/messages`;
 		return this.send_data({ "method": "POST", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.client.token });
 	}
-	async message_delete(options) {
+	message_delete(options) {
 		const { channel_id, message_id } = options;
 		const url = `${urls.base_url}/channels/${channel_id}/messages/${message_id}`;
 		return this.send_data({ "method": "DELETE", "body": null, "url": url, "token": this.client.token, "get_json": false });
 	}
-	async join(options) {
+	join(options) {
 		const { guild_id, channel_id } = options;
 		const JSON_JOIN = {
 			"op": gateway_data.Opcodes.Voice_State_Update,

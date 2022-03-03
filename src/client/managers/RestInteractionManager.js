@@ -7,7 +7,7 @@ class RestInteractionManager extends BaseRestManager {
 		super();
 		this.client = client;
 	}
-	async deferReply(options) {
+	deferReply(options) {
 		const { token, id, ephemeral } = options;
 		const url = `${urls.base_url}/interactions/${id}/${token}/callback`;
 		const full_content_new_msg = {
@@ -19,7 +19,7 @@ class RestInteractionManager extends BaseRestManager {
 		}
 		return this.send_data({ "method": "POST", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.client.token, "get_json": false });
 	}
-	async edit_webhook(options) {
+	edit_webhook(options) {
 		const { content, embeds, components, ephemeral, token, id } = options;
 		const url = `${urls.base_url}/webhooks/${id}/${token}/messages/@original`;
 		const full_content_new_msg = {
@@ -33,7 +33,7 @@ class RestInteractionManager extends BaseRestManager {
 		}
 		return this.send_data({ "method": "PATCH", "body": JSON.stringify(full_content_new_msg), "url": url, "token": this.client.token, "get_json": false });
 	}
-	async callback_reply(options) {
+	callback_reply(options) {
 		const { content, embeds, components, ephemeral, token, id } = options;
 		const url = `${urls.base_url}/interactions/${id}/${token}/callback`;
 		const full_content_new_msg = {

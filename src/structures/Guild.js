@@ -26,7 +26,7 @@ class Guild {
 	fetch_channel(id) {
 		return this.client.rest.rest_channel.fetch(id);
 	}
-	async create_slash(options) {
+	create_slash(options) {
 		return this.client.rest.rest_guild.create_slash({ "slash_command_data": options, "guild_id": this.d.id });
 	}
 }

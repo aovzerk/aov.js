@@ -56,9 +56,9 @@ class Client extends EventEmitter {
 	start_gateway_connection() {
 		this.Gateway.on("connect", connection => {
 			this.voices.tracking_data(connection);
-			connection.on("message", async message => {
+			connection.on("message", message => {
 				if (message.type === "utf8") {
-					const msg_action = await JSON.parse(message.utf8Data);
+					const msg_action = JSON.parse(message.utf8Data);
 					this.analys_action(msg_action.t, msg_action, connection);
 				}
 			});

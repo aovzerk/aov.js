@@ -9,7 +9,7 @@ class Gateway extends WebSocketClient {
 		this.interval = 0;
 		this.connection = null;
 	}
-	async login() {
+	login() {
 		this.connect(urls.base_gateway_url);
 	}
 	heartbeat(connection) { // отправка heartbeat для индентификации того что мы живы

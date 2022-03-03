@@ -3,7 +3,7 @@
 const fetch = require("node-fetch");
 const API_STATUS = require("../../consts/api_status.json");
 class BaseRestManager {
-	async send_data(options) {
+	send_data(options) {
 		const { method, body, url, token } = options;
 		let { get_json } = options;
 		if (get_json == undefined) get_json = true;
@@ -15,10 +15,10 @@ class BaseRestManager {
 					"Authorization": `Bot ${token}`,
 					"Content-Type": "application/json"
 				}
-			}).then(async response => {
+			}).then(response => {
 				if (response.status == API_STATUS.OK || response.status == API_STATUS.NOT_CONTENT || response.status == API_STATUS.CREATED) {
 					if (get_json) {
-						const data = await response.json();
+						const data = response.json();
 						result(data);
 					} else {
 						result("Complete");

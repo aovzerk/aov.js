@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = async (client, action) => {
+module.exports = (client, action) => {
 	client.user = action.d.user;
 	client.emit(action.t, client.user);
 };

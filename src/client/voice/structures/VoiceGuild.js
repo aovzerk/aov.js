@@ -47,7 +47,7 @@ class VoiceGuild extends EventEmitter {
 		});
 		this.stream = null;
 	}
-	async play(stream) {
+	play(stream) {
 		if (this.loading_track == 0) {
 			if (this.closed == 0) {
 				this.stream = stream;

@@ -1,7 +1,7 @@
 "use strict";
 const Message = require("../../structures/Message");
 
-module.exports = async (client, action) => {
+module.exports = (client, action) => {
 
 	const deleted_msg = new Message(client, action);
 	client.messages.delete(deleted_msg);

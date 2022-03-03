@@ -1,7 +1,7 @@
 "use strict";
 const Message = require("../../structures/Message");
 
-module.exports = async (client, action) => {
+module.exports = (client, action) => {
 	if (action.d.interaction && action.d.webhook_id) {
 		client.webhooks_interaсtion.add(action);
 	} else if (action.d.message_reference && action.d.webhook_id) {

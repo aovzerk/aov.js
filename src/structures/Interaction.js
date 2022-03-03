@@ -13,14 +13,14 @@ class Interaction {
 	get member() {
 		return this.guild.member(this.d.member.user.id);
 	}
-	async deferReply() {
+	deferReply() {
 		if (!this.deferReply_is && !this.reply_is) {
 			this.deferReply_is = 1;
 			return this.client.rest.rest_interaction.deferReply({ "token": this.d.token, "id": this.d.id });
 		}
 
 	}
-	async reply(options) {
+	reply(options) {
 		const { content, embeds, components, ephemeral } = options;
 		if (this.deferReply_is && !this.reply_is) {
 			this.reply_is = 1;

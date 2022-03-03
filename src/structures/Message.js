@@ -15,7 +15,7 @@ class Message {
 	get member() {
 		return this.guild.member(this.d.author.id);
 	}
-	async reply(options) {
+	reply(options) {
 		const { content, embeds, components } = options;
 		return new Promise((result, reject) => {
 			this.client.rest.rest_channel.message_reply({ "content": content, "embeds": embeds, "components": components, "channel_id": this.d.channel_id, "message_id": this.d.id, "guild_id": this.d.guild_id }).then(async msg_data => {
@@ -24,7 +24,7 @@ class Message {
 		});
 
 	}
-	async delete() {
+	delete() {
 		if (!this.deleted) {
 			this.deleted = 1;
 			return this.client.rest.rest_channel.message_delete({ "channel_id": this.d.channel_id, "message_id": this.d.id });
@@ -34,7 +34,7 @@ class Message {
 		}
 
 	}
-	async create_tracking_componets_action(filter, time) {
+	create_tracking_componets_action(filter, time) {
 		return new TrackMessageComponent(this, filter, time);
 	}
 }

@@ -10,7 +10,7 @@ class Channel {
 	get guild() {
 		return this.client.guilds.resolve(this.d.guild_id);
 	}
-	async send(options) {
+	send(options) {
 		const { content, embeds, components } = options;
 		return new Promise((result, reject) => {
 			this.client.rest.rest_channel.send({ "content": content, "embeds": embeds, "components": components, "channel_id": this.d.id }).then(async msg_data => {
@@ -19,7 +19,7 @@ class Channel {
 		});
 
 	}
-	async join() {
+	join() {
 		this.client.rest.rest_channel.join({ "guild_id": this.guild.d.id, "channel_id": this.d.id });
 		return new Promise((result, reject) => {
 			this.client.on("CREATE_VOICE_CONNECTION", function emit_voice(Voice, client) {

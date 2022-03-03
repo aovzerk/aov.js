@@ -1,7 +1,7 @@
 "use strict";
 
 const GuildMember = require("../../structures/GuildMember");
-module.exports = async (client, action) => {
+module.exports = (client, action) => {
 
 	const remove_member = new GuildMember(action.d, client);
 	const guild = client.guilds.resolve(action.d.guild_id);
