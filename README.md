@@ -10,7 +10,7 @@ const { Client } =  require("aov.js");
 const  cfg  =  require("./cfg.json");
 const  bot  =  new  Client({ "intents":  cfg.intents });
 
-bot.on("READY", async  user  => {
+bot.on("READY", user  => {
 	console.log(`${user.username}#${user.discriminator} запущен`);
 });
 
