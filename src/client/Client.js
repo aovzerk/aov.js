@@ -32,23 +32,30 @@ class Client extends EventEmitter {
 		this.webhooks_components = new ComponentsWebhookCacheManager(this);
 		this.rest = new RestManager(this);
 		this.voices = new ClientVoiceManager(this);
+		this.parsing_guilds = setTimeout(() => this.disable_parsing_guilds(), 10000);
 
 	}
+	disable_parsing_guilds() {
+		clearTimeout(this.parsing_guilds);
+		this.parsing_guilds = null;
 
-	async analys_action(t, action, connection) {
+	}
+	analys_action(t, action, connection) {
 		if (t == null && action.op == gateway_data.Opcodes.Hello) {
 			this.Gateway.interval = action.d.heartbeat_interval;
 			setTimeout((_connection) => this.Gateway.heartbeat(_connection), this.Gateway.interval, connection);
 		} else if (t == null && action.op == gateway_data.Opcodes.Heartbeat_ACK) {
 			setTimeout((_connection) => this.Gateway.heartbeat(_connection), this.Gateway.interval, connection);
-		} else if (this.actions[t]) {
+		} else if (t == "GUILD_CREATE", this.actions[t]) {
+			this.actions[t](this, action);
+		} else if (this.actions[t] && this.parsing_guilds == null) {
 			this.actions[t](this, action);
 		}
 
 
 	}
 	start_gateway_connection() {
-		this.Gateway.on("connect", async connection => {
+		this.Gateway.on("connect", connection => {
 			this.voices.tracking_data(connection);
 			connection.on("message", async message => {
 				if (message.type === "utf8") {

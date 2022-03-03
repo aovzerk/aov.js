@@ -4,7 +4,11 @@ const Channel = require("../../structures/Channel");
 const GuildMember = require("../../structures/GuildMember");
 const Role = require("../../structures/Role");
 
-module.exports = async (client, action) => {
+module.exports = (client, action) => {
+	if (client.parsing_guilds != null) {
+		clearTimeout(client.parsing_guilds);
+		client.parsing_guilds = setTimeout(() => client.disable_parsing_guilds(), 2000);
+	}
 
 	const new_guild = new Guild(client, action);
 
