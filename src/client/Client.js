@@ -80,10 +80,8 @@ class Client extends EventEmitter {
 		return this._token();
 	}
 	login(token) {
-		// this.token = token;
-
 		this._token = () => token;
-		// this.analys_gateway_op();
+
 		this.Gateway.login();
 	}
 }
