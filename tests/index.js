@@ -1,5 +1,4 @@
 const { Client } = require("../");
-const { MessageActionRow, MessageButton } = require("../");
 const cfg = require("./cfg.json");
 const bot = new Client({ "intents": cfg.intents });
 
@@ -9,28 +8,22 @@ bot.on("READY", async user => {
 
 bot.on("MESSAGE_CREATE", msg => {
 	if (msg.d.author.id != bot.user.id) {
-		const row = new MessageActionRow()
-			.addComponent(
-				new MessageButton()
-					.setCustomId("id1")
-					.setLabel("⬅️")
-					.setStyle("PRIMARY"),
-				new MessageButton()
-					.setCustomId("id2")
-					.setLabel("➡️")
-					.setStyle("PRIMARY")
-			);
-		msg.channel.send({ "content": "hello", "components": [row] }).then(async newmsg => {
-			const filter = (i) => (i.d.data.custom_id === "id1" || i.d.data.custom_id === "id2");
-			const tracking = await newmsg.create_tracking_componets_action(filter, 5000);
-			tracking.on("action", i => {
-				console.log(i);
-				i.reply({ "content": "Hello", "ephemeral": true });
-			});
-		});
+		const args = msg.d.content.split(" ");
+		if (args[0] == "!reg") {
+			const command = {
+				"name": "ping",
+				"type": 1,
+				"description": "Ping bot"
+			};
+			msg.guild.create_slash(command).catch(err => console.log(err));
+		}
 	}
 
 });
-
+bot.on("INTERACTION_CREATE", i => {
+	if (i.type == "SLASH" && i.d.data.name == "ping") {
+		i.reply({ "content": "Pong", "ephemeral": true });
+	}
+});
 
 bot.login(cfg.token);
