@@ -18,7 +18,6 @@ class Client extends EventEmitter {
 		super();
 		this.setMaxListeners(0);
 		this.user = null;
-		this.token = null;
 		this.connection = null;
 		this.intents = null;
 		this.Gateway = new Gateway();
@@ -77,8 +76,13 @@ class Client extends EventEmitter {
 			this.intents += num_intent;
 		});
 	}
+	get token() {
+		return this._token();
+	}
 	login(token) {
-		this.token = token;
+		// this.token = token;
+
+		this._token = () => token;
 		// this.analys_gateway_op();
 		this.Gateway.login();
 	}
