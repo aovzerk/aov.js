@@ -7,7 +7,7 @@ bot.on("READY", async user => {
 	console.log(`${user.username}#${user.discriminator} запущен`);
 });
 
-bot.on("MESSAGE_CREATE", async msg => {
+bot.on("MESSAGE_CREATE", msg => {
 	if (msg.d.author.id != bot.user.id) {
 		const row = new MessageActionRow()
 			.addComponent(
@@ -25,6 +25,7 @@ bot.on("MESSAGE_CREATE", async msg => {
 			const tracking = await newmsg.create_tracking_componets_action(filter, 5000);
 			tracking.on("action", i => {
 				console.log(i);
+				i.reply({ "content": "Hello", "ephemeral": true });
 			});
 		});
 	}
