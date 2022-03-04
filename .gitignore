@@ -1,6 +1,5 @@
 HELP.md
 node_modules
-.eslintrc.json
 target/
 tests/cfg.json
 !.mvn/wrapper/maven-wrapper.jar
