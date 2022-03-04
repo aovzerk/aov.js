@@ -1,6 +1,6 @@
 {
     "name": "aov.js",
-    "version": "0.0.9",
+    "version": "0.1.0",
     "main": "./src/index.js",
     "repository": {
         "type": "git",
@@ -17,6 +17,14 @@
         "websocket": "^1.0.34",
         "youtube-dl-exec": "^2.0.5"
     },
+    "keywords": [
+        "discord",
+        "api",
+        "bot",
+        "client",
+        "node",
+        "discordapp"
+      ],
     "engines": {
         "node": ">=16.6.0",
         "npm": ">=7.0.0"
