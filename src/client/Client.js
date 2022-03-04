@@ -18,7 +18,6 @@ class Client extends EventEmitter {
 		super();
 		this.setMaxListeners(0);
 		this.user = null;
-		this.connection = null;
 		this.intents = null;
 		this.Gateway = new Gateway();
 		this.actions = actions;
