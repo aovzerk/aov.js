@@ -10,6 +10,9 @@ module.exports = (client, action) => {
 		const new_msg = new Message(client, action);
 		client.messages.add(new_msg);
 		client.emit(action.t, new_msg);
+		client.commands.forEach(command => {
+			command.run(new_msg);
+		});
 	}
 
 

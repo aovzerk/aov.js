@@ -12,7 +12,7 @@ const InteractionWebhookCacheManager = require("./managers/InteractionWebhookCac
 const ComponentsWebhookCacheManager = require("./managers/ComponentsWebhookCacheManager");
 const RestManager = require("./managers/RestManager");
 const ClientVoiceManager = require("./voice/ClientVoice");
-
+const Command = require("../structures/Command");
 class Client extends EventEmitter {
 	constructor(options) {
 		super();
@@ -31,7 +31,15 @@ class Client extends EventEmitter {
 		this.rest = new RestManager(this);
 		this.voices = new ClientVoiceManager(this);
 		this.parsing_guilds = setTimeout(() => this.disable_parsing_guilds(), 10000);
-
+		this.commands = [];
+		this.guilds_prefix = new Map();
+		this.prefix = options.prefix;
+	}
+	set_prefix(id, prefix) {
+		this.guilds_prefix.set(id, prefix);
+	}
+	add_command(func, options) {
+		this.commands.push(new Command(func, options));
 	}
 	disable_parsing_guilds() {
 		clearTimeout(this.parsing_guilds);
