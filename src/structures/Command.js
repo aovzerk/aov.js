@@ -19,8 +19,8 @@ class Command extends BaseCommand {
 		}
 
 		const args = message.d.content.split(" ").filter(entery => entery.trim() != "");
+		if (!args[0].startsWith(`${prefix}${this.func.name}`) || args[0].length != (this.func.name.length + prefix.length)) return;
 		args.splice(0, 1);
-		if (!message.d.content.startsWith(`${prefix}${this.func.name}`)) return;
 		this.func(message, ...args);
 	}
 
