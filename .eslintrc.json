@@ -3,10 +3,11 @@
 		"es6": true,
 		"node": true
 	},
-	"extends": ["eslint:recommended"],
+	"extends": ["eslint:recommended", "plugin:prettier/recommended"],
+	"plugins": ["import"],
 	"parserOptions": {
 		"sourceType": "module",
-		"ecmaVersion": 2020
+		"ecmaVersion": 2021
 	},
 	"rules": {
 		"no-await-in-loop": "error",
@@ -74,7 +75,145 @@
 		"space-before-blocks": "warn",
 		"space-before-function-paren": ["warn", { "anonymous": "never", "named": "never", "asyncArrow": "always" }],
 		"keyword-spacing": ["warn", { "before": true, "after": true }],
-		"key-spacing": "warn"
+		"key-spacing": "warn",
+		"import/order": [
+			"error",
+			{
+			  "groups": ["builtin", "external", "internal", "index", "sibling", "parent"],
+			  "alphabetize": {
+				"order": "asc"
+			  }
+			}
+		  ],
+		  "prettier/prettier": [
+			2,
+			{
+			  "printWidth": 120,
+			  "singleQuote": true,
+			  "quoteProps": "as-needed",
+			  "trailingComma": "all",
+			  "endOfLine": "lf",
+			  "arrowParens": "avoid"
+			}
+		  ],
+		  "strict": ["error", "global"],
+		  "no-compare-neg-zero": "error",
+		  "no-unsafe-negation": "error",
+		  "valid-jsdoc": [
+			"error",
+			{
+			  "requireReturn": false,
+			  "requireReturnDescription": false,
+			  "prefer": {
+				"return": "returns",
+				"arg": "param"
+			  },
+			  "preferType": {
+				"String": "string",
+				"Number": "number",
+				"Boolean": "boolean",
+				"Symbol": "symbol",
+				"object": "Object",
+				"function": "Function",
+				"array": "Array",
+				"date": "Date",
+				"error": "Error",
+				"null": "void"
+			  }
+			}
+		  ],
+	  
+		  "accessor-pairs": "warn",
+		  "consistent-return": "error",
+		  "curly": ["error", "multi-line", "consistent"],
+		  "dot-notation": "error",
+		  "eqeqeq": "error",
+		  "no-implied-eval": "error",
+		  "no-invalid-this": "error",
+		  "no-new-func": "error",
+		  "no-new-wrappers": "error",
+		  "no-new": "error",
+		  "no-octal-escape": "error",
+		  "no-return-assign": "error",
+		  "no-return-await": "error",
+		  "no-sequences": "error",
+		  "no-throw-literal": "error",
+		  "no-unmodified-loop-condition": "error",
+		  "no-unused-expressions": "error",
+		  "no-useless-call": "error",
+		  "no-useless-concat": "error",
+		  "no-useless-escape": "error",
+		  "no-useless-return": "error",
+		  "no-void": "error",
+		  "no-warning-comments": "warn",
+		  "prefer-promise-reject-errors": "error",
+		  "require-await": "warn",
+		  "wrap-iife": "error",
+	  
+		  "no-label-var": "error",
+		  "no-undef-init": "error",
+	  
+		  "callback-return": "error",
+		  "getter-return": "off",
+		  "no-mixed-requires": "error",
+		  "no-new-require": "error",
+	  
+		  "block-spacing": "error",
+		  "capitalized-comments": ["error", "always", { "ignoreConsecutiveComments": true }],
+		  "computed-property-spacing": "error",
+		  "consistent-this": ["error", "$this"],
+		  "eol-last": "error",
+		  "func-names": "error",
+		  "func-name-matching": "error",
+		  "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
+		  "max-depth": "error",
+		  "max-len": ["error", 120, 2],
+		  "new-cap": "off",
+		  "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 3 }],
+		  "no-array-constructor": "error",
+		  "no-inline-comments": "error",
+		  "no-new-object": "error",
+		  "no-whitespace-before-property": "error",
+		  "nonblock-statement-body-position": "error",
+		  "operator-assignment": "error",
+		  "padded-blocks": ["error", "never"],
+		  "semi-spacing": "error",
+		  "template-tag-spacing": "error",
+		  "unicode-bom": "error",
+	  
+		  "arrow-parens": ["error", "as-needed"],
+		  "no-useless-computed-key": "error",
+		  "no-useless-constructor": "error",
+		  "prefer-arrow-callback": "error",
+		  "prefer-numeric-literals": "error",
+		  "prefer-rest-params": "error",
+		  "prefer-spread": "error",
+		  "template-curly-spacing": "error",
+		  "yield-star-spacing": "error",
+	  
+		  "no-restricted-globals": [
+			"error",
+			{
+			  "name": "Buffer",
+			  "message": "Import Buffer from `node:buffer` instead"
+			},
+			{
+			  "name": "process",
+			  "message": "Import process from `node:process` instead"
+			},
+			{
+			  "name": "setTimeout",
+			  "message": "Import setTimeout from `node:timers` instead"
+			},
+			{
+			  "name": "setInterval",
+			  "message": "Import setInterval from `node:timers` instead"
+			},
+			{
+			  "name": "setImmediate",
+			  "message": "Import setImmediate from `node:timers` instead"
+			}
+		  ]
 	},
 	"globals": {}
 }
