@@ -3,8 +3,6 @@ const Interaction = require("./Interaction");
 class InteractionSlash extends Interaction {
 	constructor(client, action) {
 		super(client, action);
-		this.deferReply_is = 0;
-		this.reply_is = 0;
 		this.type = "SLASH";
 	}
 	option(o) {

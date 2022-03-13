@@ -3,6 +3,8 @@ class Interaction {
 	constructor(client, action) {
 		this.client = client;
 		this.d = action.d;
+		this.deferReply_is = 0;
+		this.reply_is = 0;
 	}
 	get channel() {
 		return this.client.channels.resolve(this.d.channel_id);
