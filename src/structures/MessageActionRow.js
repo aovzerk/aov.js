@@ -6,6 +6,9 @@ class MessageActionRow {
 		this.components = [];
 	}
 	addComponent(...components) {
+		if (this.components.length == 5) {
+			throw Error("ActionRow max length: 5");
+		}
 		this.components.push(...components);
 		return this;
 	}
