@@ -45,7 +45,7 @@ class Client extends EventEmitter {
 		this.parsing_guilds = null;
 
 	}
-	analys_action(t, action, connection) {
+	analys_action(t, action) {
 		if (t == "GUILD_CREATE", this.actions[t]) {
 			this.actions[t](this, action);
 		} else if (this.actions[t] && this.parsing_guilds == null) {
