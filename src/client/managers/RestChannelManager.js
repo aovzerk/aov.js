@@ -66,7 +66,7 @@ class RestChannelManager extends BaseRestManager {
 				"self_deaf": false
 			}
 		};
-		this.client.Gateway.connection.sendUTF(JSON.stringify(JSON_JOIN));
+		this.client.GatewayManager.connection.sendUTF(JSON.stringify(JSON_JOIN));
 	}
 }
 module.exports = RestChannelManager;
