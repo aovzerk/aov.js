@@ -1,4 +1,4 @@
-const { Client, MessageActionRow, SelectMenu } = require("../");
+const { Client, MessageActionRow, SelectMenu, MessageButton } = require("../");
 const cfg = require("./cfg.json");
 const bot = new Client({ "intents": cfg.intents });
 
@@ -12,6 +12,10 @@ bot.on("MESSAGE_CREATE", async msg => {
 		const args = msg.d.content.split(" ");
 		if (args[0] == "!get") {
 			const row = new MessageActionRow();
+			const btn = new MessageButton()
+				.setCustomId("btn1")
+				.setLabel("Hello")
+				.setStyle("PRIMARY");
 			const menu = new SelectMenu();
 			menu.setCustomId("menu_id1")
 				.setPlaceholder("Выберети")
@@ -45,9 +49,14 @@ bot.on("MESSAGE_CREATE", async msg => {
 					}
 				});
 			row.addComponent(menu);
-			msg.channel.send({ "components": [row.toJSON()] }).catch(err => console.log(err));
+			const row2 = new MessageActionRow();
+			row2.addComponent(btn);
+			msg.channel.send({ "components": [row.toJSON(), row2.toJSON()] }).catch(err => console.log(err));
 		}
 	}
 });
-
+bot.on("INTERACTION_CREATE", i => {
+	console.log(i.d.data.values);
+	i.reply({ "content": i.d.data.values[0] });
+});
 bot.login(cfg.token);
